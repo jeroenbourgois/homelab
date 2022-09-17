@@ -1,0 +1,25 @@
+version: "3"
+
+networks:
+  traefik_default:
+    external: true
+
+services:
+  server:
+    image: homelab_mon:latest
+    container_name: homelab_mon
+    env_file:
+      - config/docker.env
+    restart: always
+    networks:
+      - traefik_default
+    ports:
+      - "4000:4000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homelab_mon.entrypoints=websecure"
+      - "traefik.http.routers.homelab_mon.rule=host(`homelab.jeroenbourgois.be`)"
+      - "traefik.http.routers.homelab_mon.tls=true"
+      - "traefik.http.routers.homelab_mon.tls.certresolver=staging"
+      - "traefik.http.routers.homelab_mon.loadbalancer.server.port=3000"
+
