@@ -69,6 +69,7 @@ certificatesResolvers:
 providers:
   docker:
     exposedByDefault: false  # Default is true
+    network: traefik
   file:
     # watch for dynamic configuration changes
     directory: /etc/traefik
