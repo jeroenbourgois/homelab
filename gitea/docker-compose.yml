@@ -1,0 +1,30 @@
+version: "3"
+
+networks:
+  traefik:
+    external: true
+
+services:
+  server:
+    image: gitea/gitea:1.17.1
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=974 # docker
+    restart: always
+    networks:
+      - traefik
+    volumes:
+      - /home/app-data/gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "222:22"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitea.entrypoints=websecure"
+      - "traefik.http.routers.gitea.rule=host(`git.jeroenbourgois.be`)"
+      - "traefik.http.routers.gitea.tls=true"
+      - "traefik.http.routers.gitea.tls.certresolver=staging"
+      - "traefik.http.services.gitea.loadbalancer.server.port=3000"
