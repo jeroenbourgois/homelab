@@ -6,7 +6,7 @@ networks:
 
 services:
   server:
-    image: homelab_mon:latest
+    image: jeroenbourgois/homelab_mon:main
     container_name: homelab_mon
     env_file:
       - config/docker.env
@@ -18,8 +18,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.homelab_mon.entrypoints=websecure"
-      - "traefik.http.routers.homelab_mon.rule=host(`homelab.jeroenbourgois.be`)"
+      - "traefik.http.routers.homelab_mon.rule=host(`lab.jeroenbourgois.be`)"
       - "traefik.http.routers.homelab_mon.tls=true"
       - "traefik.http.routers.homelab_mon.tls.certresolver=staging"
-      - "traefik.http.routers.homelab_mon.loadbalancer.server.port=3000"
-
+      - "traefik.http.services.homelab_mon.loadbalancer.server.port=4000"
+      - "traefik.http.routers.homelab_mon.middlewares=homelab_mon"
+      - "traefik.http.middlewares.homelab_mon.basicauth.users=${BASIC_AUTH_PWD}"

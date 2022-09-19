@@ -27,4 +27,6 @@ services:
       - "traefik.http.routers.gitea.rule=host(`git.jeroenbourgois.be`)"
       - "traefik.http.routers.gitea.tls=true"
       - "traefik.http.routers.gitea.tls.certresolver=staging"
-      - "traefik.http.services.gitea.loadbalancer.server.port=3000"
+      - "traefik.http.routers.gitea.loadbalancer.server.port=3000"
+      - "traefik.http.routers.gitea.middlewares=gitea"
+      - "traefik.http.middlewares.gitea.basicauth.users=${BASIC_AUTH_PWD}"
