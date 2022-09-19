@@ -1,0 +1,38 @@
+concurrent = 10
+check_interval = 10
+sentry_dsn = ""
+
+[session_server]
+  session_timeout = 1800
+
+[[runners]]
+  name = "tower-turrim"
+  url = "https://gitlab.com"
+  token = "****"
+  executor = "docker"
+  environment = [
+    "DOCKER_DRIVER=overlay2",
+    "DOCKER_TLS_CERTDIR="
+  ]
+  [runners.custom_build_dir]
+  [runners.docker]
+    tls_verify = false
+    image = "alpine:3.15.3"
+    privileged = true
+    disable_entrypoint_overwrite = false
+    oom_kill_disable = false
+    disable_cache = false
+    cache_dir = "/home/jeroen/cache/docker"
+    volumes = [
+      "/home/jeroen/cache/docker",
+      "/home/jeroen/cache/docker:/tmp:rw",
+      "/home/jeroen/cache/docker:/cache:rw",
+      "/var/run/docker.sock:/var/run/docker.sock"
+    ]
+    shm_size = 0
+    wait_for_services_timeout = 60
+    [runners.docker.tmpfs]
+      "/var/lib/mysql" = "rw,noexec"
+      "/ramdisk" = "rw,noexec"
+    [runners.docker.services_tmpfs]
+      "/var/lib/mysql" = "rw,noexec"
