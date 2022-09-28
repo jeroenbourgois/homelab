@@ -6,7 +6,7 @@ volumes:
 
 services:
   traefik:
-    image: "traefik:v2.8.5"
+    image: "traefik:v2.8.7"
     container_name: "traefik"
     restart: always
     ports:
