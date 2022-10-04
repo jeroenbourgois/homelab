@@ -23,7 +23,6 @@ services:
       - "traefik.http.routers.homelab_mon_ip.tls.certresolver=production"
       - "traefik.http.services.homelab_mon_ip.loadbalancer.server.port=4000"
       - "traefik.http.routers.homelab_mon_ip.middlewares=auth,secureheaders"
-      - "traefik.http.routers.homelab_mon_ip.middlewares=secureheaders"
       # middlewares
       - "traefik.http.middlewares.auth.basicauth.users=${BASIC_AUTH_PWD}"
       - "traefik.http.middlewares.secureheaders.headers.stsseconds=63072000"
